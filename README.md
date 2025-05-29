@@ -73,6 +73,26 @@ model = "claude-sonnet-4-20250514"
 max_tokens = 300
 ```
 
+## Customizing Prompts
+
+You can customize the system prompt by creating a `custom_prompt.txt` file in your configuration directory. The default prompt is designed for concise terminal responses, but you can override it for your specific needs.
+
+To create a custom prompt:
+```bash
+# Copy the default prompt to your config directory
+mkdir -p ~/.config/quick-question
+cp prompts/system.txt ~/.config/quick-question/custom_prompt.txt
+
+# Edit with your preferred text editor
+nano ~/.config/quick-question/custom_prompt.txt
+```
+
+The custom prompt file is stored in your user configuration directory:
+- **Linux/macOS**: `~/.config/quick-question/custom_prompt.txt`  
+- **Windows**: `%APPDATA%\quick-question\custom_prompt.txt`
+
+This keeps your personalized prompt separate from the project files and won't be affected by updates.
+
 ### Environment Variables
 
 You can also set your API key via environment variable:
