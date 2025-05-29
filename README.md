@@ -75,15 +75,14 @@ max_tokens = 300
 
 ## Customizing Prompts
 
-You can customize the system prompt by creating a `custom_prompt.txt` file in your configuration directory. The default prompt is designed for concise terminal responses, but you can override it for your specific needs.
+You can customize the system prompt by creating a `custom_prompt.txt` file in your configuration directory. The application comes with a built-in default prompt optimized for concise terminal responses, but you can override it for your specific needs.
 
 To create a custom prompt:
 ```bash
-# Copy the default prompt to your config directory
+# Create the config directory if it doesn't exist  
 mkdir -p ~/.config/quick-question
-cp prompts/system.txt ~/.config/quick-question/custom_prompt.txt
 
-# Edit with your preferred text editor
+# Create and edit your custom prompt file
 nano ~/.config/quick-question/custom_prompt.txt
 ```
 
@@ -91,7 +90,7 @@ The custom prompt file is stored in your user configuration directory:
 - **Linux/macOS**: `~/.config/quick-question/custom_prompt.txt`  
 - **Windows**: `%APPDATA%\quick-question\custom_prompt.txt`
 
-This keeps your personalized prompt separate from the project files and won't be affected by updates.
+If no custom prompt file is found, the application uses its built-in default prompt.
 
 ### Environment Variables
 
