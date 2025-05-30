@@ -1,6 +1,6 @@
 [package]
 name = "quick-question"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 
 [[bin]]
@@ -17,3 +17,4 @@ dirs = "5.0"
 anyhow = "1.0"
 toml = "0.8"
 async-trait = "0.1"
+indicatif = "0.17"

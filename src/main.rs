@@ -1,5 +1,7 @@
 use clap::Parser;
 use std::io::{self, Write, IsTerminal, Read};
+use std::time::Duration;
+use indicatif::{ProgressBar, ProgressStyle};
 
 mod config;
 mod providers;
@@ -80,9 +82,29 @@ async fn main() -> anyhow::Result<()> {
 
     let provider = ClaudeProvider::new(config.claude_api_key.clone(), config.model.clone());
 
+    // Show spinner while waiting for response
+    let spinner = ProgressBar::new_spinner();
+    spinner.set_style(
+        ProgressStyle::default_spinner()
+            .tick_chars("⠁⠂⠄⡀⢀⠠⠐⠈")
+            .template("{spinner:.cyan} {msg}")
+            .unwrap()
+    );
+    
+    // Simple rotating messages
+    let messages = vec!["Thinking...", "Processing...", "Analyzing...", "Computing..."];
+    spinner.set_message(messages[0]);
+    spinner.enable_steady_tick(Duration::from_millis(120));
+
     match provider.ask(&question).await {
-        Ok(response) => println!("{}", response),
+        Ok(response) => {
+            spinner.finish_and_clear();
+            print!("\n\x1b[36m  › \x1b[0m"); // Cyan chevron with indent
+            io::stdout().flush().unwrap();
+            print_with_typing_effect(&response);
+        },
         Err(e) => {
+            spinner.finish_and_clear();
             if e.to_string().contains("network") || e.to_string().contains("connection") {
                 eprintln!("Sorry, I can't answer that without an active internet connection");
             } else if e.to_string().contains("token") || e.to_string().contains("quota") {
@@ -163,4 +185,23 @@ fn looks_like_incomplete_input(input: &str) -> bool {
     input.ends_with(" ll") ||    // "we ll" suggests "we'll"
     input.ends_with(" ve") ||    // "I ve" suggests "I've"
     input.ends_with(" d")        // "I d" suggests "I'd"
+}
+
+fn print_with_typing_effect(text: &str) {
+    for char in text.chars() {
+        print!("{}", char);
+        io::stdout().flush().unwrap();
+        
+        // Fast typing effect - subtle but still human-like
+        let delay = match char {
+            ' ' => Duration::from_millis(2),   // Spaces are very fast
+            '.' | '!' | '?' => Duration::from_millis(150), // Brief pause at sentence endings
+            ',' | ';' | ':' => Duration::from_millis(30),  // Small pause at punctuation
+            '\n' => Duration::from_millis(80),  // Brief pause at line breaks
+            _ => Duration::from_millis(8),      // Regular characters - much faster
+        };
+        
+        std::thread::sleep(delay);
+    }
+    println!(); // Final newline
 }
