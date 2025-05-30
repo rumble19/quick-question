@@ -144,11 +144,15 @@ async fn setup_config() -> anyhow::Result<()> {
     };
     
     config.save()?;
+    config.create_custom_prompt_file()?;
     
     let config_path = Config::config_path()?;
+    let custom_prompt_path = Config::custom_prompt_path()?;
     println!("✅ Configuration saved!");
     println!("📁 Config file: {}", config_path.display());
-    println!("🔧 You can edit model and max_tokens settings there if needed.");
+    println!("📝 Custom prompt file: {}", custom_prompt_path.display());
+    println!("🔧 You can edit model and max_tokens settings in the config file.");
+    println!("✨ You can add custom prompt instructions in the custom prompt file.");
     println!();
     println!("Try it out: qq \"What is Rust?\"");
     

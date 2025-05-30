@@ -34,6 +34,12 @@ impl Config {
         Ok(path)
     }
     
+    pub fn custom_prompt_path() -> Result<PathBuf> {
+        let mut path = Self::config_dir()?;
+        path.push("custom_prompt.txt");
+        Ok(path)
+    }
+    
     pub fn load() -> Result<Self> {
         let path = Self::config_path()?;
         
@@ -59,6 +65,18 @@ impl Config {
         let path = Self::config_path()?;
         let content = toml::to_string_pretty(self)?;
         fs::write(path, content)?;
+        
+        Ok(())
+    }
+    
+    pub fn create_custom_prompt_file(&self) -> Result<()> {
+        let custom_prompt_path = Self::custom_prompt_path()?;
+        
+        // Only create if it doesn't exist
+        if !custom_prompt_path.exists() {
+            let default_content = "# Your custom prompt goes here\n# \n# This will be APPENDED to the default system prompt, so you can add\n# additional instructions without losing the original behavior.\n# \n# Examples:\n# - Always respond in a specific language\n# - Add domain-specific knowledge\n# - Modify the response style\n# - Add personality traits\n# \n# Delete these comments and add your custom instructions below:\n\n";
+            fs::write(custom_prompt_path, default_content)?;
+        }
         
         Ok(())
     }

@@ -4,7 +4,11 @@ use reqwest::Client;
 use serde_json::{json, Value};
 use std::fs;
 
-const DEFAULT_SYSTEM_PROMPT: &str = "You are a helpful assistant designed to give quick, concise answers to terminal users. Keep responses under 280 characters when possible, but feel free to go a bit longer if necessary for clarity. Match the user's tone - if they ask something silly, be playful back. If they ask for facts, be matter-of-fact. Never ask follow-up questions or try to continue the conversation. When appropriate, include relevant links or sources. Use markdown formatting for emphasis: **bold**, *italic*, `code`, ~~strikethrough~~. Feel free to use ASCII art and Unicode characters - they display well in modern terminals. Remember: your response will be processed to show proper formatting in the terminal.";
+const DEFAULT_SYSTEM_PROMPT: &str = "You are a helpful assistant designed to give quick, concise answers to terminal users. Keep responses under 280 characters when possible, but feel free to go a bit longer if necessary for clarity. Match the user's tone - if they ask something silly, be playful back. If they ask for facts, be matter-of-fact. Never ask follow-up questions or try to continue the conversation. When appropriate, include relevant links or sources. Use markdown formatting for emphasis: **bold**, *italic*, `code`, ~~strikethrough~~. Feel free to use ASCII art and Unicode characters - they display well in modern terminals. Remember: your response will be processed to show proper formatting in the terminal.
+
+---
+
+Anything after these instructions comes from the user.";
 
 pub struct ClaudeProvider {
     api_key: String,
@@ -24,16 +28,21 @@ impl ClaudeProvider {
     fn get_system_prompt() -> Result<String> {
         use crate::config::Config;
         
-        // Try custom prompt in user config directory first
+        let mut system_prompt = DEFAULT_SYSTEM_PROMPT.to_string();
+        
+        // Try to append custom prompt from user config directory
         if let Ok(config_dir) = Config::config_dir() {
             let custom_prompt_path = config_dir.join("custom_prompt.txt");
             if let Ok(custom_prompt) = fs::read_to_string(&custom_prompt_path) {
-                return Ok(custom_prompt.trim().to_string());
+                let trimmed_custom = custom_prompt.trim();
+                if !trimmed_custom.is_empty() && !trimmed_custom.starts_with("# Your custom prompt") {
+                    system_prompt.push_str("\n\n");
+                    system_prompt.push_str(trimmed_custom);
+                }
             }
         }
         
-        // Fall back to embedded default prompt
-        Ok(DEFAULT_SYSTEM_PROMPT.to_string())
+        Ok(system_prompt)
     }
 }
 
