@@ -11,23 +11,16 @@ It's just to ask simple stuff. No file uploads or tons of iterating. No deep div
 
 ## Features
 
-- ⚡ **Ultra-fast responses** - Get answers in seconds with visual feedback
-- 🎯 **Concise output** - Responses optimized for terminal viewing  
-- 🎨 **Beautiful UX** - Spinner animations, typing effects, and colored output
-- 📝 **Smart formatting** - Markdown support with **bold**, *italic*, `code`, ~~strikethrough~~
-- 🔧 **Easy setup** - One-time configuration with auto-generated templates
-- 🎛️ **Customizable prompts** - Add your own instructions while keeping defaults
-- 🛡️ **Smart input handling** - Detects shell issues and offers interactive mode
-- 🔗 **Multiple input methods** - Direct, interactive, or piped input
-- 🌟 **Modern terminal features** - ASCII art, Unicode, and proper ANSI formatting
+- ⚡ **Ultra-fast responses** - Get answers in seconds
+- 🎯 **Concise output** - Responses optimized for terminal viewing
+- 🔧 **Easy setup** - One-time configuration with your Anthropic API key. More model support is planned. 
+- 🎨 **Beautiful** - Markdown formatting and modern terminal support for nice looking responses. 
+- 🙏 **Easy to use** - Doesn't have a million featues. Type qq and go. 
 
 ## Roadmap
 
 - 🔮 **ChatGPT/OpenAI support** - Multiple AI provider options
 - 🏠 **Local LLM support** - Run models locally (Ollama, etc.)
-- 📋 **Response history** - Optional local response caching
-- 🎨 **Theme customization** - Configurable colors and styles
-- 📊 **Usage statistics** - Track your question patterns 
 
 ## Installation
 
