@@ -10,8 +10,14 @@ use providers::{Provider, claude::ClaudeProvider};
 #[derive(Parser)]
 #[command(name = "qq")]
 #[command(about = "Quick Question - Get fast answers in your terminal")]
+#[command(long_about = "Quick Question - Get fast answers in your terminal
+
+Usage examples:
+  qq \"What is Rust?\"        # Ask a question directly
+  qq                         # Enter interactive mode
+  echo \"question\" | qq      # Pipe input")]
 struct Args {
-    /// The question to ask
+    /// The question to ask (if not provided, enters interactive mode)
     question: Vec<String>,
     
     /// Run the setup process
