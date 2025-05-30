@@ -1,13 +1,19 @@
 # Quick Question (qq) 🚀
 
-A lightning-fast CLI tool that brings AI assistance directly to your terminal. Get quick, concise answers to any question without leaving your command line.
+I'm pretty new to the whole AI thing. I can see its value for sure. However, there's about 100 new super impresive do-everything or do-specific apps that come out daily. I found that I could use something a <del>little</del> lot simpler to fill a niche. So I made this. It's designed to be as simple as possible. 
+- `qq is there a good wordpress hook for changing the menu structure if I have an id?`
+- `qq "What's the difference between == and === in JavaScript?"`
+- `qq "im working on a crossword, help? * * A * P"`
+
+It's just to ask simple stuff. No file uploads or tons of iterating. No deep diving into your codebase to discover every known possible optimization. Just ask it a quick question. 
 
 ## Features
 
 - ⚡ **Ultra-fast responses** - Get answers in seconds
-- 🎯 **Concise output** - Responses optimized for terminal viewing (under 280 characters when possible)
-- 🔧 **Easy setup** - One-time configuration with your Anthropic API key
+- 🎯 **Concise output** - Responses optimized for terminal viewing
+- 🔧 **Easy setup** - One-time configuration with your Anthropic API key. More model support is planned. 
 - 🎨 **Beautiful** - Supports ASCII art and terminal formatting
+- 🙏 **Easy to use** - Doesn't have a million featues. Type qq and go. 
 
 ## Installation
 
@@ -49,14 +55,14 @@ qq --setup
 
 You have several ways to ask questions:
 
-**1. Direct command (quoted):**
+**1. Direct command (quoted):** Good if your query has punctuation that might mess with the input. 
 ```bash
 qq "What is Rust?"
 qq "How do I reverse a string in Python?"
 qq "Explain quantum computing simply"
 ```
 
-**2. Interactive mode:**
+**2. Interactive mode:**  Also good for longer, more complex queries. 
 ```bash
 qq -i
 # Or just:
@@ -128,7 +134,7 @@ $ qq "Capital of Japan"
 Tokyo is the capital of Japan. 🗾
 
 # Programming help
-$ qq "Rust ownership explained briefly"
+$ qq "How does ownership work in rust?"
 Ownership in Rust: each value has one owner, no garbage collector needed. 
 When owner goes out of scope, value is dropped. Borrowing lets you use 
 values without taking ownership. Prevents memory leaks & data races! 🦀
@@ -204,7 +210,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Built with [Claude](https://www.anthropic.com/) by Anthropic
-- Inspired by the need for quick terminal-based AI assistance
+- Inspired by the need for something simpler.
 
 ---
 
