@@ -17,10 +17,6 @@ struct Args {
     /// Run the setup process
     #[arg(long)]
     setup: bool,
-    
-    /// Interactive mode - prompt for question
-    #[arg(short, long)]
-    interactive: bool,
 }
 
 #[tokio::main]
@@ -32,9 +28,7 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
     
-    let question = if args.interactive {
-        get_question_interactively()?
-    } else if args.question.is_empty() {
+    let question = if args.question.is_empty() {
         // Check if we have stdin input (piped)
         if !IsTerminal::is_terminal(&io::stdin()) {
             // Read from stdin (pipe or redirection)
@@ -52,7 +46,7 @@ async fn main() -> anyhow::Result<()> {
             println!("🤔 It looks like your question might have been cut off by the shell.");
             println!("💡 Tip: Put quotes around questions with apostrophes or special characters:");
             println!("   qq \"your question here\"");
-            println!("   Or use interactive mode: qq -i");
+            println!("   Or just use: qq (and enter your question when prompted)");
             println!();
             print!("Enter your complete question: ");
             io::stdout().flush()?;

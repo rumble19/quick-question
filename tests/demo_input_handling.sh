@@ -11,7 +11,7 @@ echo "Command: qq \"What's the difference between Rust and Python?\""
 echo
 
 echo "✅ Method 2: Interactive mode (perfect for complex questions)"
-echo "Command: qq -i"
+echo "Command: qq"
 echo "Then type: What's going on? How does this work? Don't worry about quotes!"
 echo
 
@@ -39,5 +39,5 @@ echo
 
 echo "🔧 Usage recommendations:"
 echo "   - For simple questions: qq \"your question\""
-echo "   - For complex questions: qq -i"
+echo "   - For complex questions: qq"
 echo "   - For automation: echo \"question\" | qq"

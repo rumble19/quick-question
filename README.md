@@ -64,10 +64,8 @@ qq "Explain quantum computing simply"
 
 **2. Interactive mode:**  Also good for longer, more complex queries. 
 ```bash
-qq -i
-# Or just:
 qq
-# (will prompt for input if no arguments provided)
+# (will prompt for input when no arguments provided)
 ```
 
 **3. Pipe input:**
@@ -78,8 +76,7 @@ echo "What is the capital of France?" | qq
 **💡 Tip for Complex Questions:**
 If your question contains apostrophes, quotes, or special characters, you have options:
 - Use quotes: `qq "What's the difference between Rust and C++?"`
-- Use interactive mode: `qq -i` (then type your question)
-- Pipe it: `echo "Your complex question here" | qq`
+- Use interactive mode: `qq` (then type your question when prompted)
 
 The app will automatically detect problematic input and offer to switch to interactive mode!
 
