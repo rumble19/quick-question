@@ -1,6 +1,8 @@
 # Quick Question (qq) 🚀
 
-I'm pretty new to the whole AI thing. I can see its value for sure. However, there's about 100 new super impresive do-everything or do-specific apps that come out daily. I found that I could use something a <del>little</del> lot simpler to fill a niche. So I made this. It's designed to be as simple as possible. 
+**v0.2.0-alpha** - A simple, fast CLI for getting quick AI answers in your terminal.
+
+I'm pretty new to the whole AI thing. I can see its value for sure. However, there's about 100 new super impressive do-everything or do-specific apps that come out daily. I found that I could use something a <del>little</del> lot simpler to fill a niche. So I made this. It's designed to be as simple as possible. 
 - `qq is there a good wordpress hook for changing the menu structure if I have an id?`
 - `qq "What's the difference between == and === in JavaScript?"`
 - `qq "im working on a crossword, help? * * A * P"`
@@ -9,11 +11,23 @@ It's just to ask simple stuff. No file uploads or tons of iterating. No deep div
 
 ## Features
 
-- ⚡ **Ultra-fast responses** - Get answers in seconds
-- 🎯 **Concise output** - Responses optimized for terminal viewing
-- 🔧 **Easy setup** - One-time configuration with your Anthropic API key. More model support is planned. 
-- 🎨 **Beautiful** - Supports ASCII art and terminal formatting
-- 🙏 **Easy to use** - Doesn't have a million featues. Type qq and go. 
+- ⚡ **Ultra-fast responses** - Get answers in seconds with visual feedback
+- 🎯 **Concise output** - Responses optimized for terminal viewing  
+- 🎨 **Beautiful UX** - Spinner animations, typing effects, and colored output
+- 📝 **Smart formatting** - Markdown support with **bold**, *italic*, `code`, ~~strikethrough~~
+- 🔧 **Easy setup** - One-time configuration with auto-generated templates
+- 🎛️ **Customizable prompts** - Add your own instructions while keeping defaults
+- 🛡️ **Smart input handling** - Detects shell issues and offers interactive mode
+- 🔗 **Multiple input methods** - Direct, interactive, or piped input
+- 🌟 **Modern terminal features** - ASCII art, Unicode, and proper ANSI formatting
+
+## Roadmap
+
+- 🔮 **ChatGPT/OpenAI support** - Multiple AI provider options
+- 🏠 **Local LLM support** - Run models locally (Ollama, etc.)
+- 📋 **Response history** - Optional local response caching
+- 🎨 **Theme customization** - Configurable colors and styles
+- 📊 **Usage statistics** - Track your question patterns 
 
 ## Installation
 
