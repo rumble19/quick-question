@@ -143,5 +143,18 @@ fn looks_like_incomplete_input(input: &str) -> bool {
     input.ends_with('"') ||  // Unclosed double quote  
     input.ends_with("\\") || // Trailing backslash
     input.is_empty() ||      // Empty input
-    (input.len() < 5 && input.chars().any(|c| "'\"`\\".contains(c))) // Very short with special chars
+    (input.len() < 5 && input.chars().any(|c| "'\"`\\".contains(c))) || // Very short with special chars
+    // Check for patterns that suggest apostrophe was mangled by shell
+    input.contains(" s ") ||     // "what s the" suggests "what's the"
+    input.contains(" t ") ||     // "don t know" suggests "don't know"
+    input.contains(" re ") ||    // "you re right" suggests "you're right"
+    input.contains(" ll ") ||    // "we ll see" suggests "we'll see"
+    input.contains(" ve ") ||    // "I ve got" suggests "I've got"
+    input.contains(" d ") ||     // "I d like" suggests "I'd like"
+    input.ends_with(" s") ||     // "what s" suggests "what's"
+    input.ends_with(" t") ||     // "don t" suggests "don't"
+    input.ends_with(" re") ||    // "you re" suggests "you're"
+    input.ends_with(" ll") ||    // "we ll" suggests "we'll"
+    input.ends_with(" ve") ||    // "I ve" suggests "I've"
+    input.ends_with(" d")        // "I d" suggests "I'd"
 }

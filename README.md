@@ -78,7 +78,7 @@ If your question contains apostrophes, quotes, or special characters, you have o
 - Use quotes: `qq "What's the difference between Rust and C++?"`
 - Use interactive mode: `qq` (then type your question when prompted)
 
-The app will automatically detect problematic input and offer to switch to interactive mode!
+The app will try to automatically detect problematic input and offer to switch to interactive mode!
 
 ### Configuration
 
