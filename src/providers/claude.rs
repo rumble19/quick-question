@@ -33,11 +33,25 @@ impl ClaudeProvider {
         // Try to append custom prompt from user config directory
         if let Ok(config_dir) = Config::config_dir() {
             let custom_prompt_path = config_dir.join("custom_prompt.txt");
+            
+            // Create template file if it doesn't exist
+            if !custom_prompt_path.exists() {
+                let _ = fs::create_dir_all(&config_dir);
+                let template_content = "# Your custom prompt goes here\n# \n# This will be APPENDED to the default system prompt, so you can add\n# additional instructions without losing the original behavior.\n# \n# Examples:\n# - Always respond in a specific language\n# - Add domain-specific knowledge\n# - Modify the response style\n# - Add personality traits\n# \n# Delete these comments and add your custom instructions below:\n\n";
+                let _ = fs::write(&custom_prompt_path, template_content);
+            }
+            
             if let Ok(custom_prompt) = fs::read_to_string(&custom_prompt_path) {
-                let trimmed_custom = custom_prompt.trim();
-                if !trimmed_custom.is_empty() && !trimmed_custom.starts_with("# Your custom prompt") {
+                // Extract non-comment lines from the custom prompt
+                let custom_lines: Vec<&str> = custom_prompt
+                    .lines()
+                    .filter(|line| !line.trim().starts_with("#") && !line.trim().is_empty())
+                    .collect();
+                
+                if !custom_lines.is_empty() {
+                    let actual_custom_content = custom_lines.join("\n");
                     system_prompt.push_str("\n\n");
-                    system_prompt.push_str(trimmed_custom);
+                    system_prompt.push_str(&actual_custom_content);
                 }
             }
         }
