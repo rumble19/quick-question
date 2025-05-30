@@ -4,7 +4,7 @@ use reqwest::Client;
 use serde_json::{json, Value};
 use std::fs;
 
-const DEFAULT_SYSTEM_PROMPT: &str = "You are a helpful assistant designed to give quick, concise answers to terminal users. Keep responses under 280 characters when possible, but feel free to go a bit longer if necessary for clarity. Match the user's tone - if they ask something silly, be playful back. If they ask for facts, be matter-of-fact. Never ask follow-up questions or try to continue the conversation. When appropriate, include relevant links or sources. Feel free to use ASCII art or terminal-friendly formatting when it adds value. Remember: your response will be displayed directly in a terminal.";
+const DEFAULT_SYSTEM_PROMPT: &str = "You are a helpful assistant designed to give quick, concise answers to terminal users. Keep responses under 280 characters when possible, but feel free to go a bit longer if necessary for clarity. Match the user's tone - if they ask something silly, be playful back. If they ask for facts, be matter-of-fact. Never ask follow-up questions or try to continue the conversation. 'Don't ask things like how can I help you today?' because that is inviting a follow up. When appropriate, include relevant links or sources. Feel free to use ASCII art or terminal-friendly formatting when it adds value. Remember: your response will be displayed directly in a terminal.";
 
 pub struct ClaudeProvider {
     api_key: String,

@@ -1,5 +1,5 @@
 use clap::Parser;
-use std::io::{self, Write};
+use std::io::{self, Write, IsTerminal, Read};
 
 mod config;
 mod providers;
@@ -17,6 +17,10 @@ struct Args {
     /// Run the setup process
     #[arg(long)]
     setup: bool,
+    
+    /// Interactive mode - prompt for question
+    #[arg(short, long)]
+    interactive: bool,
 }
 
 #[tokio::main]
@@ -28,14 +32,30 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
     
-    if args.question.is_empty() {
-        eprintln!("Usage: qq <your question>");
-        eprintln!("   or: qq --setup (to configure)");
-        std::process::exit(1);
+    let question = if args.interactive || args.question.is_empty() {
+        get_question_interactively()?
+    } else {
+        // Check if we might have gotten mangled input from shell
+        let joined = args.question.join(" ");
+        if looks_like_incomplete_input(&joined) {
+            println!("🤔 It looks like your question might have been cut off by the shell.");
+            println!("💡 Tip: Put quotes around questions with apostrophes or special characters:");
+            println!("   qq \"your question here\"");
+            println!("   Or use interactive mode: qq -i");
+            println!();
+            print!("Enter your complete question: ");
+            io::stdout().flush()?;
+            get_question_interactively()?
+        } else {
+            joined
+        }
+    };
+    
+    if question.trim().is_empty() {
+        println!("❌ No question provided.");
+        return Ok(());
     }
-    
-    let question = args.question.join(" ");
-    
+
     let config = match Config::load() {
         Ok(config) => config,
         Err(_) => {
@@ -44,9 +64,9 @@ async fn main() -> anyhow::Result<()> {
             Config::load()?
         }
     };
-    
+
     let provider = ClaudeProvider::new(config.claude_api_key.clone(), config.model.clone());
-    
+
     match provider.ask(&question).await {
         Ok(response) => println!("{}", response),
         Err(e) => {
@@ -98,4 +118,31 @@ async fn setup_config() -> anyhow::Result<()> {
     println!("Try it out: qq \"What is Rust?\"");
     
     Ok(())
+}
+
+fn get_question_interactively() -> anyhow::Result<String> {
+    // Check if we're reading from a pipe or terminal
+    if !IsTerminal::is_terminal(&io::stdin()) {
+        // Read from stdin (pipe or redirection)
+        let mut input = String::new();
+        io::stdin().read_to_string(&mut input)?;
+        return Ok(input.trim().to_string());
+    }
+    
+    // Interactive terminal input
+    print!("❓ Enter your question: ");
+    io::stdout().flush()?;
+    
+    let mut question = String::new();
+    io::stdin().read_line(&mut question)?;
+    Ok(question.trim().to_string())
+}
+
+fn looks_like_incomplete_input(input: &str) -> bool {
+    // Check for common patterns that indicate shell mangling
+    input.ends_with("'") ||  // Unclosed single quote
+    input.ends_with('"') ||  // Unclosed double quote  
+    input.ends_with("\\") || // Trailing backslash
+    input.is_empty() ||      // Empty input
+    (input.len() < 5 && input.chars().any(|c| "'\"`\\".contains(c))) // Very short with special chars
 }

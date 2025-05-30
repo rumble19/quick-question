@@ -47,14 +47,35 @@ qq --setup
 
 ### Asking Questions
 
-Simply type `qq` followed by your question:
+You have several ways to ask questions:
 
+**1. Direct command (quoted):**
 ```bash
 qq "What is Rust?"
 qq "How do I reverse a string in Python?"
 qq "Explain quantum computing simply"
-qq "What's the weather API for OpenWeatherMap?"
 ```
+
+**2. Interactive mode:**
+```bash
+qq -i
+# Or just:
+qq
+# (will prompt for input if no arguments provided)
+```
+
+**3. Pipe input:**
+```bash
+echo "What is the capital of France?" | qq
+```
+
+**💡 Tip for Complex Questions:**
+If your question contains apostrophes, quotes, or special characters, you have options:
+- Use quotes: `qq "What's the difference between Rust and C++?"`
+- Use interactive mode: `qq -i` (then type your question)
+- Pipe it: `echo "Your complex question here" | qq`
+
+The app will automatically detect problematic input and offer to switch to interactive mode!
 
 ### Configuration
 
