@@ -150,7 +150,12 @@ quick-question/
 │   └── providers/
 │       ├── mod.rs        # Provider trait definition
 │       └── claude.rs     # Claude API implementation
+├── tests/                # Test files and demos
+│   ├── demo_input_handling.sh  # Input method demonstrations
+│   ├── test_formatting.sh      # Formatting tests
+│   └── format_test.rs           # Standalone formatting test
 ├── Cargo.toml            # Dependencies and project config
+├── LICENSE               # MIT License
 └── README.md             # This file
 ```
 

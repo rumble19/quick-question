@@ -32,8 +32,19 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
     
-    let question = if args.interactive || args.question.is_empty() {
+    let question = if args.interactive {
         get_question_interactively()?
+    } else if args.question.is_empty() {
+        // Check if we have stdin input (piped)
+        if !IsTerminal::is_terminal(&io::stdin()) {
+            // Read from stdin (pipe or redirection)
+            let mut input = String::new();
+            io::stdin().read_to_string(&mut input)?;
+            input.trim().to_string()
+        } else {
+            // No arguments and no pipe, go interactive
+            get_question_interactively()?
+        }
     } else {
         // Check if we might have gotten mangled input from shell
         let joined = args.question.join(" ");
@@ -45,7 +56,9 @@ async fn main() -> anyhow::Result<()> {
             println!();
             print!("Enter your complete question: ");
             io::stdout().flush()?;
-            get_question_interactively()?
+            let mut question = String::new();
+            io::stdin().read_line(&mut question)?;
+            question.trim().to_string()
         } else {
             joined
         }
@@ -121,15 +134,7 @@ async fn setup_config() -> anyhow::Result<()> {
 }
 
 fn get_question_interactively() -> anyhow::Result<String> {
-    // Check if we're reading from a pipe or terminal
-    if !IsTerminal::is_terminal(&io::stdin()) {
-        // Read from stdin (pipe or redirection)
-        let mut input = String::new();
-        io::stdin().read_to_string(&mut input)?;
-        return Ok(input.trim().to_string());
-    }
-    
-    // Interactive terminal input
+    // Interactive terminal input only
     print!("❓ Enter your question: ");
     io::stdout().flush()?;
     
